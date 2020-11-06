@@ -3,7 +3,8 @@ import PackageDescription
 
 #if canImport(Compression)
 let targets: [Target] = [
-    .target(name: "ZIPFoundation", swiftSettings: [.define("RELEASE")]),
+    .target(name: "ZIPFoundation", swiftSettings: [.define("RELEASE"),
+            .define("RELEASE", .when(platforms: [.iOS, .macOS, .tvOS, .watchOS], configuration: .debug))]),
     .testTarget(name: "ZIPFoundationTests", dependencies: ["ZIPFoundation"])
 ]
 #else
@@ -12,7 +13,8 @@ let targets: [Target] = [
     .target(name: "ZIPFoundation",
             dependencies: ["CZLib"],
             cSettings: [.define("_GNU_SOURCE", to: "1")],
-            swiftSettings: [.define("RELEASE")])
+            swiftSettings: [.define("RELEASE"),
+            .define("RELEASE", .when(platforms: [.iOS, .macOS, .tvOS, .watchOS], configuration: .debug))])
     .testTarget(name: "ZIPFoundationTests", dependencies: ["ZIPFoundation"])
 ]
 #endif
